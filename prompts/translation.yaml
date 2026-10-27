@@ -1,0 +1,52 @@
+toEnglish:
+  system: |
+    You are an expert in Mongolian translation. 
+    Your task is to translate the Cyrillic Mongolian sentence to English. 
+    Do not provide explanations. Output must follow the required format.
+    
+  user: |
+    ### Task
+    Translate the following Mongolian sentence to English.
+
+    - Mongolian sentence: {cyrillic_sent}
+
+    ### Output Format
+    Output ONLY the final translation result, with NO other scripts and NO additional text.
+
+    ### Output
+
+
+toKorean:
+  system: |
+    You are an expert in Mongolian translation. 
+    Your task is to translate the Cyrillic Mongolian sentence to Korean. 
+    Do not provide explanations. Output must follow the required format.
+    
+  user: |
+    ### Task
+    Translate the following Mongolian sentence to Korean.
+
+    - Mongolian sentence: {cyrillic_sent}
+
+    ### Output Format
+    Output ONLY the final translation result, with NO other scripts and NO additional text.
+
+    ### Output
+
+
+toRussian:
+  system: |
+    You are an expert in Mongolian translation. 
+    Your task is to translate the Cyrillic Mongolian sentence to Russian. 
+    Do not provide explanations. Output must follow the required format.
+    
+  user: |
+    ### Task
+    Translate the following Mongolian sentence to Russian.
+
+    - Mongolian sentence: {cyrillic_sent}
+
+    ### Output Format
+    Output ONLY the final translation result, with NO other scripts and NO additional text.
+
+    ### Output

@@ -1,0 +1,139 @@
+stage1:
+  name: "Vowel Harmony Recovery"
+  system: |-
+    You are an expert in Traditional Mongolian vowel harmony.
+    Your task is to classify the vowel harmony type of a single traditional Mongolian word.
+    Do not provide explanations. Output must follow the required format.
+
+  user: |-
+    ### Essential Vowel Harmony Rules
+    1. Alphabet Structure
+    - Traditional Mongolian letters change visual shape depending on position (Initial / Medial / Final).
+    - These shape differences do not change pronunciation. Harmony classification is based solely on vowel identity, not shape.
+
+    2. Vowel Harmony Classes
+    - Masculine:
+      - Cyrillic: а, о, у
+      - Traditional: ᠠ, ᠣ, ᠤ
+      - Rule: Masculine vowels cannot mix with feminine vowels in the same word.
+    - Feminine:
+      - Cyrillic: э, ө, ү
+      - Traditional: ᠡ, ᠥ, ᠦ
+      - Rule: Feminine vowels cannot mix with masculine vowels in the same word.
+    - Neutral:
+      - Cyrillic: и
+      - Traditional: ᠢ
+      - Rule: Neutral can appear with either masculine or feminine vowels.
+
+    3. Medial Vowels
+    - Orthographic Shape vs. Pronunciation:
+      - Medial forms of ᠠ and ᠡ look the same, medial forms of ᠣ/ᠤ and ᠥ/ᠦ look similar.
+      - Therefore, vowel pronunciation and class are determined by the first vowel, not by later medial shapes.
+    - Pronunciation behavior:
+      - If the word is masculine, medial vowels are pronounced as a/o/u. 
+      - If the word is feminine, medial vowels are pronounced as e/ö/ü.
+
+    4. Classification Procedure 
+    - Identify the first vowel of the word.
+    - That first vowel determines the entire harmony class of the word.
+    - If the word's first vowel is the neutral vowel look at following vowels and follow their harmony types.
+    - If a word contains only ᠢ (the neutral vowel), classify it as Feminine.
+
+    ### Task
+    Using the rules above, classify the vowel harmony class of the following traditional Mongolian word.
+
+    - Traditional Mongolian Word: {trad_word}
+
+    ### Output Format
+    Output ONLY one of the following classes, with NO additional text:
+    - Masculine  
+    - Feminine  
+
+    ### Output
+
+
+
+stage2:
+  name: "Latin_Assisted_Normalization"
+  system: |-
+    You are an expert in Traditional Mongolian orthography.
+    Your task is to convert a Traditional Mongolian word into Latin transliteration.
+    Do not provide explanations. Output must follow the required format.
+
+  user: |-
+    ### Essential Transliteration Processing Rules (Traditional Mongolian letter: Latin transliteration letter)
+    1. Map each long vowel pattern as follows:
+    - Structured form: Vowel + ᠭ/ᠶ + Vowel (keep the g/y)
+    ᠣᠭᠤ: ogu, ᠥᠭᠡ: öge, ᠦᠭᠦ: ügü, ᠢᠶᠠ: iya, ᠢᠶᠡ: iye
+
+    - Consecutive Vowels:
+    ᠣᠣ: oo, ᠥᠥ: öö, ᠤᠤ: uu, ᠠᠤ: au, ᠢᠤ: iu, ᠦᠦ: üü, ᠡᠦ: eü, ᠢᠦ: iü
+
+    2. Map each diphthong as follows:
+    ᠠᠢ: ai, ᠣᠢ: oi, ᠠᠶᠢ: ayi, ᠤᠶᠢ: uyi, ᠥᠶᠢ: öyi
+
+    3. Map each single vowel as follows:
+    ᠠ: a, ᠡ: e, ᠢ: i, ᠣ: o, ᠤ: u, ᠥ: ö, ᠦ: ü, ᠧ: ë, ᠶ: y
+
+    If a medial vowel shape is visually ambiguous, use the vowel harmony class to determine the correct vowel mapping:
+    - Masculine: a, o, u
+    - Feminine: e, ö, ü
+
+    4. Map each consonant as follows:
+    ᠪ: b, ᠷ: r, ᠰ: s, ᠳ: d, ᠨ: n, ᠮ: m, ᠯ: l, ᠩ: ng, ᠾ: h, ᠲ: t, ᠼ: c, ᠴ: č, ᠽ: z, ᠵ: ǰ, ᠱ: š, ᠸ: w
+
+    If a consonant shape is visually ambiguous, use the vowel harmony class to determine the correct mapping:
+    - Masculine: ᠭ: γ, ᠬ: q, ᠩᠭ: ngγ
+    - Feminine: ᠭ: g, ᠬ: k, ᠩᠭ: ngg
+
+    ### Task
+    Using the rules above, return the Latin transliteration of the following Traditional Mongolian word.
+    Use the vowel harmony class only to resolve ambiguous vowel/consonant mapping.
+
+    - Traditional Mongolian Word: {trad_word}
+    - Vowel Harmony Class: {vowel_harmony}
+
+    ### Output Format
+    Output ONLY the transliteration result in Latin script, with NO other scripts and NO additional text.
+
+    ### Output
+
+
+
+stage3:
+  name: "Cyrillic_Normalization"
+  system: |-
+    You are an expert in modern Cyrillic Mongolian orthography.
+    Your task is to convert the Latin transliteration of a Traditional Mongolian word into the correct modern Cyrillic form.
+    Do not provide explanations. Output must follow the required format.
+
+  user: |-
+    ### Essential Cyrillic Conversion Rules (Latin transliteration letter: Cyrillic letter)
+    1. Map each long vowel pattern as follows:
+    aga/iga/uga: аа, ege/ige/üge/öge: ээ, igi: ий, ogu/aga/iga/oga/uga: оо, agu/ugu/igu: уу, öge/ege/ögü: өө, egü/ügü/igü: үү, oo: оо, öö: өө, uu/au/iu: уу, üü/eü/iü: үү, agaga: аа, egege: ээ, eguu: үү
+
+    2. Map each Vowel+y+Vowel pattern as follows:
+    iya: аа/иа/ийа, iye: ие/иэ
+
+    3. Map each diphthong as follows:
+    ai: ай, ei: эй, oi: ой, ui: уй, üi: үй, au: ау, ua: уа
+
+    4. Map each single vowel as follows:
+    a: а, e: э, i: и, o: о, u: у, ö: ө, ü: ү
+
+    5. Map each consonant as follows:
+    b: б, g: г, γ: r, g: г, q/k/h: х, t: т, d: д, n: н, ng: нг/н, m: м, l: л, r: р, s: с, š: ш, z: з, ǰ: ж, č: ч, c: ц, y: й
+
+    ### Task
+    Using the rules above, convert the following Latin transliteration result into its correct Cyrillic word.    
+    Use the vowel harmony class only to resolve ambiguous vowel/consonant mapping.
+
+    - Traditional Mongolian Word: {trad_word}
+    - Transliteration: {latin_trans}
+
+    - Vowel Harmony Class: {vowel_harmony}
+
+    ### Output Format
+    Output ONLY the final Cyrillic word, with NO other scripts and NO additional text.
+
+    ### Output
